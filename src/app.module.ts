@@ -7,7 +7,9 @@ import { UserItem } from './users/entities/user-item.entity';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.PGHOST,
@@ -17,10 +19,16 @@ import { UserItem } from './users/entities/user-item.entity';
       database: process.env.PGDATABASE,
       entities: [User, UserItem],
       synchronize: true,
-      ssl: process.env.NODE_ENV === 'production' ? {
-        rejectUnauthorized: false
-      } : false
+      ssl: true,
+      extra: {
+        ssl: {
+          rejectUnauthorized: false
+        }
+      },
+      retryAttempts: 5,
+      retryDelay: 3000
     }),
+    TypeOrmModule.forFeature([User, UserItem]),
     UsersModule
   ],
 })
