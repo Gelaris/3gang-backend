@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { User } from './entities/user.entity';
-import { UserItem } from './entities/user-item.entity';
-import { UsersController } from './controllers/users.controller';
-import { UsersService } from './services/users.service';
+import { UsersModule } from './users/users.module';
+import { User } from './users/entities/user.entity';
+import { UserItem } from './users/entities/user-item.entity';
 
 @Module({
   imports: [
@@ -16,15 +15,13 @@ import { UsersService } from './services/users.service';
       username: process.env.DB_USERNAME || process.env.PGUSER,
       password: process.env.DB_PASSWORD || process.env.PGPASSWORD,
       database: process.env.DB_DATABASE || process.env.PGDATABASE,
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      entities: [User, UserItem],
       synchronize: true,
       ssl: {
-        rejectUnauthorized: false // Для Railway это важно
+        rejectUnauthorized: false
       }
     }),
-    TypeOrmModule.forFeature([User, UserItem])
+    UsersModule
   ],
-  controllers: [UsersController],
-  providers: [UsersService],
 })
 export class AppModule {}
