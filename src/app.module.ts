@@ -17,9 +17,9 @@ import { UserItem } from './users/entities/user-item.entity';
       database: process.env.PGDATABASE,
       entities: [User, UserItem],
       synchronize: true,
-      ssl: {
+      ssl: process.env.NODE_ENV === 'production' ? {
         rejectUnauthorized: false
-      }
+      } : false
     }),
     UsersModule
   ],
