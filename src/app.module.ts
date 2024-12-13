@@ -10,11 +10,11 @@ import { UserItem } from './users/entities/user-item.entity';
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST || process.env.PGHOST,
-      port: parseInt(process.env.DB_PORT || process.env.PGPORT || '5432', 10),
-      username: process.env.DB_USERNAME || process.env.PGUSER,
-      password: process.env.DB_PASSWORD || process.env.PGPASSWORD,
-      database: process.env.DB_DATABASE || process.env.PGDATABASE,
+      host: process.env.DB_HOST,
+      port: parseInt(process.env.DB_PORT),
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
       entities: [User, UserItem],
       synchronize: true,
       ssl: {
